@@ -1,0 +1,52 @@
+<div class='container mt-5'>
+  <h1 class='text-center'>Image Generator</h1>
+
+  <form action='/' method='post'>
+    <input type='text' class='form-control mb-2' placeholder='Enter img params' required name='prompt' />
+
+    <select name='size' class='form-control mb-2' onchange="updateModelOptions()">
+      <option value='256x256'>Small (DALL-E 2)</option>
+      <option value='512x512'>Medium (DALL-E 2)</option>
+      <option value='1024x1024'>Large (DALL-E 3)</option>
+    </select>
+
+    <input type='number' class='form-control mb-2' name='number' value='1' />
+
+    <input type='hidden' name='model' id='modelInput' value='dall-e-2' />
+
+    <button type='submit' class='btn btn-primary'>Generate</button>
+  </form>
+
+  {{#if images}}
+  <div class='row mt-4'>
+    {{#each images}}
+    <div class='col-md-4 mb-3'>
+      <img src='{{this.url}}' class='img-fluid rounded' alt='Generated Image' />
+    </div>
+    {{/each}}
+  </div>
+  {{else}}
+  <p class='text-center mt-4'>No images generated yet.</p>
+  {{/if}}
+
+  {{#if error}}
+  <div class='alert alert-danger text-center mt-4'>{{error}}</div>
+  {{/if}}
+</div>
+
+<script>
+  function updateModelOptions() {
+    const sizeSelect = document.querySelector('select[name="size"]');
+    const modelInput = document.getElementById('modelInput');
+
+    if (sizeSelect.value === '1024x1024') {
+      modelInput.value = 'dall-e-3';
+    } else {
+      modelInput.value = 'dall-e-2';
+    }
+  }
+</script>
+
+{{!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> --}}
